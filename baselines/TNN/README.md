@@ -54,15 +54,12 @@
    * 추출 패턴:
       개별 단어 / 인접 두 단어 / 세 단어 범위의 지역적 패턴을 동시에 추출
 
-   <h3>3) GlobalMaxPooling1D</h3>
+   <h3>3) GlobalMaxPooling1D + Concat</h3>
 
    * 풀링 방식:
       각 branch 출력에 GlobalMaxPooling1D를 적용하여 가장 큰 활성화 값만 추출
    * 효과:
       리뷰 전체에서 각 필터가 가장 강하게 반응한 위치의 신호만 단일 벡터로 압축
-
-   <h3>4) Concat</h3>
-
    * 결합:
       세 개의 100차원 pooled 벡터를 이어붙여 300차원 통합 벡터 구성
 
