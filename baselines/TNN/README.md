@@ -2,7 +2,7 @@
 
 <hr>
 
-<h2>🏗️ Architecture</h2>
+<h2>🏛️Arcchitecture</h2>
 <p align="center">
   <img src="TNN_picture.png" width="800" />
 </p>
@@ -36,34 +36,54 @@
 
 <h2>📝Architecture Details</h2>
 
-<h3>1) Embedding Single Text Modality</h3>
+   <h3>1) Embedding Single Text Modality</h3>
 
-단일 텍스트 모달리티(리뷰 텍스트)를 입력으로 사용한다. 먼저 NLTK tokenizer로 리뷰 텍스트를 토큰화한 후, 학습 데이터(train split)로만 fit한 100차원 Word2Vec으로 초기화된 Embedding layer를 통과시켜 임베딩 행렬을 구성한다.
+   * 입력 데이터:
+      단일 텍스트 모달리티(리뷰 텍스트)를 입력으로 사용
+   * 토큰화 및 임베딩:
+      NLTK tokenizer로 리뷰 텍스트를 토큰화한 후, 100차원 Word2Vec으로 초기화된 Embedding layer를 통과시켜 임베딩 행렬 구성
 
 <hr>
 
-<h3>2) Parallel 1D Conv (3 branch)</h3>
+   <h3>2) Parallel 1D Conv (3 branch)</h3>
 
-동일한 임베딩 행렬에 세 개의 Conv1D를 병렬로 적용한다. 각 branch는 kernel size 1, 2, 3을 가지며, branch당 100개의 필터와 ReLU 활성화 함수로 구성된다. 이 세 branch는 각각 개별 단어, 인접한 두 단어, 세 단어 범위의 지역적 패턴을 동시에 추출하는 역할을 한다.
+   * 합성곱 구조:
+      동일 임베딩 행렬에 kernel size 1, 2, 3의 Conv1D 세 개를 병렬로 적용
+   * 필터 구성:
+      각 branch당 100개 필터, ReLU 활성화 함수 적용
+   * 추출 패턴:
+      개별 단어 / 인접 두 단어 / 세 단어 범위의 지역적 패턴을 동시에 추출
 
-<h3>3) GlobalMaxPooling1D</h3>
+   <h3>3) GlobalMaxPooling1D</h3>
 
-각 branch의 출력에 GlobalMaxPooling1D를 적용하여 가장 큰 활성화 값만을 추출한다. 이를 통해 리뷰 전체에서 각 필터가 가장 강하게 반응한 위치의 신호만이 단일 벡터로 압축된다.
+   * 풀링 방식:
+      각 branch 출력에 GlobalMaxPooling1D를 적용하여 가장 큰 활성화 값만 추출
+   * 효과:
+      리뷰 전체에서 각 필터가 가장 강하게 반응한 위치의 신호만 단일 벡터로 압축
 
-<h3>4) Concat</h3>
+   <h3>4) Concat</h3>
 
-세 개의 100차원 pooled 벡터를 이어붙여 최종적으로 300차원의 통합 벡터를 구성한다.
+   * 결합:
+      세 개의 100차원 pooled 벡터를 이어붙여 300차원 통합 벡터 구성
 
 <hr>
 
 <h2>Regression Head</h2>
 
-Concat된 300차원 벡터는 회귀 헤드를 거쳐 단일 스칼라 값으로 변환된다. 회귀 헤드는 Dropout -> Dense(32, ReLU) -> Dropout -> Dense(1, linear) 순서로 적용되며, 중간 Dense layer가 차원 축소 및 비선형성을 부여하고, 마지막 linear layer가 유용성 점수를 출력한다.
+   * 적용 순서:
+      Dropout -> Dense(32, ReLU) -> Dropout -> Dense(1, linear)
+   * 역할:
+      중간 Dense layer가 차원 축소 및 비선형성을 부여하고, 마지막 linear layer가 유용성 점수를 출력
 
 <hr>
 
 <h2>Target</h2>
 
-학습 타깃은 원시 votes_up 값을 안정적으로 회귀하기 위해 로그 변환을 적용한 <code>log(votes_up + 1)</code>이다. 또한 votes_up 분포의 long-tail 영향을 줄이기 위해 학습 데이터(train split)에 한해 99 퍼센타일을 초과하는 샘플을 제거하는 q99 cutoff를 적용한다. 이 cutoff는 train split에만 적용되며 validation/test에는 적용하지 않아 데이터 누수를 방지한다.
+   * 학습 타깃:
+      원시 votes_up 값을 안정적으로 회귀하기 위해 로그 변환 적용 -> <code>log(votes_up + 1)</code>
+   * q99 cutoff:
+      long-tail 영향을 줄이기 위해 train split에 한해 99 퍼센타일을 초과하는 샘플 제거
+   * 데이터 누수 방지:
+      q99 cutoff는 train split에만 적용, validation/test에는 미적용
 
 <hr>
