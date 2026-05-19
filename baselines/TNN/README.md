@@ -12,7 +12,7 @@
 
 <hr>
 
-<h2>Overview</h2>
+<h2>🔎Overview</h2>
 
 - TNN은 전통적 1D CNN, 즉 다양한 kernel size의 병렬
 합성곱이 텍스트 모달리티의 의미 패턴을 포착할 수 있음을 입증한 모델임. 
@@ -20,7 +20,7 @@
 
 <hr>
 
-<h2>Using tool</h2>
+<h2>🔧Using tool</h2>
 
 * <code>Python 3.10-3.12</code>
 * <code>tensorflow==2.18.1</code>
@@ -34,8 +34,19 @@
 
 <hr>
 
-<h2>📝Architecture Details</h2>
+<h2>🎯Target</h2>
 
+   * 학습 타깃:
+      원시 votes_up 값을 안정적으로 회귀하기 위해 로그 변환 적용 -> <code>log(votes_up + 1)</code>
+   * q99 cutoff:
+      long-tail 영향을 줄이기 위해 train split에 한해 99 퍼센타일을 초과하는 샘플 제거
+   * 데이터 누수 방지:
+      q99 cutoff는 train split에만 적용, validation/test에는 미적용
+
+<hr>
+
+<h2>📝Architecture Details</h2>
+   
    <h3>1) Embedding Single Text Modality</h3>
 
    * 입력 데이터:
@@ -43,7 +54,7 @@
    * 토큰화 및 임베딩:
       NLTK tokenizer로 리뷰 텍스트를 토큰화한 후, 100차원 Word2Vec으로 초기화된 Embedding layer를 통과시켜 임베딩 행렬 구성
 
-<hr>
+   <hr>
 
    <h3>2) Parallel 1D Conv (3 branch)</h3>
 
@@ -63,24 +74,13 @@
    * 결합:
       세 개의 100차원 pooled 벡터를 이어붙여 300차원 통합 벡터 구성
 
-<hr>
+   <hr>
 
-<h2>Regression Head</h2>
+   <h3>4) Regression Head</h3>
 
    * 적용 순서:
       Dropout -> Dense(32, ReLU) -> Dropout -> Dense(1, linear)
    * 역할:
       중간 Dense layer가 차원 축소 및 비선형성을 부여하고, 마지막 linear layer가 유용성 점수를 출력
-
-<hr>
-
-<h2>Target</h2>
-
-   * 학습 타깃:
-      원시 votes_up 값을 안정적으로 회귀하기 위해 로그 변환 적용 -> <code>log(votes_up + 1)</code>
-   * q99 cutoff:
-      long-tail 영향을 줄이기 위해 train split에 한해 99 퍼센타일을 초과하는 샘플 제거
-   * 데이터 누수 방지:
-      q99 cutoff는 train split에만 적용, validation/test에는 미적용
 
 <hr>
