@@ -20,6 +20,17 @@ DMMN은 리뷰 유용성 예측에서 리뷰 텍스트와 메타데이터 간의
 
 <hr>
 
+<h2>Using tool</h2>
+
+- Python 3.10-3.12, RTX 4090 / CUDA 12.x (RunPod)
+- <code>tensorflow==2.18.1</code> - Embedding, Bidirectional LSTM, MLP, 커스텀 EMN Layer
+- <code>gensim>=4.3.0</code> - Word2Vec (300d, train split만 fit)
+- <code>nltk>=3.8.0</code> - word_tokenize
+- <code>scikit-learn>=1.3</code> - split, StandardScaler, MAE/MSE/MAPE 메트릭
+- <code>numpy&lt;2.0</code>, <code>pandas>=2.0</code>, <code>scipy</code>, <code>tqdm</code>
+
+<hr>
+
 <h2>Input Modality</h2>
 
 - 2개 모달: 텍스트 + 메타데이터
