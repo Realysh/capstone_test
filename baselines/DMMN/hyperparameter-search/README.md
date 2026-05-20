@@ -9,7 +9,7 @@
 
 ## 📊 Visualization
 
-![HP-BERT_metrics](./HP-BERT_metrics.png)
+![DMMN_metrics](./DMMN_metrics.png)
 
 
 ## 📋 Full Grid Search (63 configurations)
