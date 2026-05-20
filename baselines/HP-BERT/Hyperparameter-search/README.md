@@ -9,7 +9,7 @@
 
 ## 📊 Visualization
 
-![HP-BERT_metric](./HP-BERT_metric.png)
+![HP-BERT_metrics](./HP-BERT_metrics.png)
 
 
 ## 📋 Full Grid Search (63 configurations)
