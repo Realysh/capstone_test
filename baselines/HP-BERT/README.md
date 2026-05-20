@@ -1,4 +1,4 @@
-<h2>HP-BERT - Helpfulness Prediction BERT</h2>
+<h2><a href="https://link.springer.com/article/10.1007/s10660-022-09560-w">HP-BERT - Helpfulness Prediction BERT</a></h2>
 
 사전학습 BERT의 [CLS] 표현을 frozen 상태로 활용해 리뷰 유용성을 회귀하는 단일 텍스트 모달 베이스라인
 
