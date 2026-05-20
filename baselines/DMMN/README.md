@@ -1,5 +1,5 @@
 <h2>DMMN - Deep Matching Model with feature-aware external Memory Network</h2>
-
+<h3><a href="https://www.sciencedirect.com/science/article/pii/S1568494622006731">링크 텍스트</a></h3>
 리뷰 텍스트와 메타데이터 간 matching degree를 외부 메모리 네트워크로 학습하는 멀티모달 베이스라인
 
 <hr>
