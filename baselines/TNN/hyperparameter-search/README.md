@@ -4,6 +4,9 @@
 |---:|---:|---:|---:|---:|---:|---:|---:|
 | 128 | 0.1 | 0.0007 | 15 | **0.467890** | 0.533518 | 0.730423 | 39.5065 |
 
+## 📊 Visualization
+![TNN metrics](./TNN_metrics.png)
+
 ## 📋 Full Search (63 configurations)
 
 | Rank | batch_size | dropout | lr | MAE | MSE | RMSE | MAPE | epochs | sec |
